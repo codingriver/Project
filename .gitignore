@@ -1,1 +1,8 @@
 UnityEditorProject/Library/
+UnityTool/Library/
+UnityTool/UnityTool.sln
+UnityTool/Assembly-CSharp.csproj
+UnityEditorProject/Temp/
+UnityEditorProject/UnityEditorProject.sln
+UnityEditorProject/Assembly-CSharp.csproj
+UnityEditorProject/Assembly-CSharp-Editor.csproj
