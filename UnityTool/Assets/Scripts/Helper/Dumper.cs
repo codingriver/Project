@@ -22,7 +22,7 @@ namespace Codingriver
         /// <param name="obj"></param>
         /// <param name="depth">防止 stack overflow</param>
         /// <param name="showField">是否遍历字段</param>
-        private static void DoDump(object obj, int depth = 100, bool showField = true)
+        private static void DoDump(object obj, bool showPrivate=true, int depth = 100, bool showField = true)
         {
             if (obj == null)
             {
@@ -52,7 +52,7 @@ namespace Codingriver
                 IList list = obj as IList;
                 foreach (object v in list)
                 {
-                    DoDump(v, depth, showField);
+                    DoDump(v, showPrivate, depth, showField);
                 }
 
                 _text.Append("]");
@@ -87,7 +87,7 @@ namespace Codingriver
                 {
                     _text.Append(i);
                     _text.Append(":");
-                    DoDump(a.GetValue(i), depth, showField);
+                    DoDump(a.GetValue(i), showPrivate, depth, showField);
                 }
 
                 _text.Append("]");
@@ -96,7 +96,11 @@ namespace Codingriver
             {
                 _text.Append($"<{t.Name}>");
                 _text.Append("{");
-                var props = t.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                PropertyInfo[] props;
+                if(showPrivate)
+                    props = t.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                else
+                    props = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
                 if (props.Length > 0)
                 {
                     foreach (PropertyInfo info in props)
@@ -104,10 +108,14 @@ namespace Codingriver
                         _text.Append(info.Name);
                         _text.Append(":");
                         object value = info.GetGetMethod().Invoke(obj, null);
-                        DoDump(value, depth - 1, showField);
+                        DoDump(value, showPrivate, depth - 1, showField);
                     }
                 }
-                var fields = t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldInfo[] fields;
+                if(showPrivate)
+                    fields = t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                else
+                    fields = t.GetFields(BindingFlags.Public | BindingFlags.Instance);
                 if (showField && fields.Length > 0)
                 {
                     foreach (FieldInfo info in fields)
@@ -115,7 +123,7 @@ namespace Codingriver
                         _text.Append(info.Name);
                         _text.Append(":");
                         object value = info.GetValue(obj);
-                        DoDump(value, depth - 1, showField);
+                        DoDump(value, showPrivate, depth - 1, showField);
                     }
                 }
 
@@ -130,11 +138,11 @@ namespace Codingriver
             }
         }
 
-        public static string DumpAsString(object obj, int depth = 100, bool showField = true, string hint = "")
+        public static string DumpAsString(object obj,bool showPrivate=true, int depth = 100, bool showField = true, string hint = "")
         {
             _text.Clear();
             _text.Append(hint);
-            DoDump(obj, depth, showField);
+            DoDump(obj, showPrivate, depth, showField);
             return _text.ToString();
         }
     }
