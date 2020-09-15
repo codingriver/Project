@@ -46,6 +46,7 @@ public class DumperTest : MonoBehaviour
     {
         TestData data = new TestData();
         Debug.Log(Dumper.DumpAsString(data));
+        
     }
 
 
