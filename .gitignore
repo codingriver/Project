@@ -7,3 +7,4 @@ UnityEditorProject/UnityEditorProject.sln
 UnityEditorProject/Assembly-CSharp.csproj
 UnityEditorProject/Assembly-CSharp-Editor.csproj
 UnityTool/Assembly-CSharp-firstpass.csproj
+UnityTool/Temp/
