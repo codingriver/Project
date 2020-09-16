@@ -27,36 +27,11 @@ public class JsonHelperTest : MonoBehaviour
     
     public class TestData: IDeserializationCallback
     {
-        public string[] Sitekeys = new string[] { "river", "coding" };
-        public string name = "codingriver";
-        
-        public int a = 1000;
-        public int d = 3;
         public string b = "哈哈哈哈";
-        [NonSerialized]
-        public int c;
-        protected string protect = "11111";
-        
-        int m_Main = 1024;
 
-        [NonSerialized]
-        public InnerTest obj = new InnerTest();
-
-        public int Main
-        {
-            get
-            {
-                return m_Main;
-            }
-            set
-            {
-                m_Main = value;
-            }
-        }
 
         public void OnDeserialization(object sender)
         {
-            c = a * d;
         }
     }
 
@@ -65,11 +40,11 @@ public class JsonHelperTest : MonoBehaviour
     void Start()
     {
         TestData data = new TestData();
-        data.Main = 2048;
-        data.name = "你们好吗！";
-        data.obj.a = 9;
-        data.a = 7;
-        data.d = 2;
+        //data.Main = 2048;
+        //data.name = "你们好吗！";
+        //data.obj.a = 9;
+        //data.a = 7;
+        //data.d = 2;
         
         Debug.Log("origin:"+Dumper.DumpAsString(data));
         string json= JsonHelper.ToJson(data);
@@ -82,6 +57,7 @@ public class JsonHelperTest : MonoBehaviour
         Debug.Log($"litJson:{litJson}");
         TestData data2 = JsonMapper.ToObject<TestData>(litJson);
         Debug.Log($"data2:{Dumper.DumpAsString(data2)}");
+        
     }
 
     // Update is called once per frame

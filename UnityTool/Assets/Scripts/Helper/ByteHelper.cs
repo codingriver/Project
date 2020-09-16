@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using UnityEngine;
 
@@ -18,10 +19,19 @@ namespace Codingriver
 
         public static string ToHex(this byte[] bytes)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (byte b in bytes)
+            StringBuilder stringBuilder = new StringBuilder(bytes.Length*2);
+            for (int i = 0; i < bytes.Length; i++)
             {
-                stringBuilder.Append(b.ToString("X2"));
+                stringBuilder.Append(bytes[i].ToString("X2"));
+            }
+            return stringBuilder.ToString();
+        }
+        public static string ToHex(this byte[] bytes,int index,int count)
+        {
+            StringBuilder stringBuilder = new StringBuilder(count * 2);
+            for (int i = 0; i < count; i++)
+            {
+                stringBuilder.Append(bytes[index+i].ToString("X2"));
             }
             return stringBuilder.ToString();
         }
@@ -46,15 +56,54 @@ namespace Codingriver
             return stringBuilder.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bytes">UTF-16 BE,大头方式</param>
+        /// <returns></returns>
         public static string ToStr(this byte[] bytes)
         {
-            return Encoding.Default.GetString(bytes);
-        }
+            if(bytes.Length%2!=0)
+            {
+                throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", bytes.ToHex()));
+            }
 
+            StringBuilder builder = new StringBuilder(bytes.Length / 2);
+            for (int i = 0; i < bytes.Length; i+=2)
+            {
+                ushort value = (ushort)((bytes[i + 1] << 8) | bytes[i]);
+                builder.Append((char)value);
+            }
+            return builder.ToString();
+        }
         public static string ToStr(this byte[] bytes, int index, int count)
         {
-            return Encoding.Default.GetString(bytes, index, count);
+            if (count % 2 != 0)
+            {
+                throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", bytes.ToHex()));
+            }
+
+            StringBuilder builder = new StringBuilder(count / 2);
+            for (int i = 0; i < count; i += 2)
+            {
+                ushort value = (ushort)(( bytes[index + i + 1] << 8) | bytes[index + i]);
+                builder.Append((char)value);
+            }
+            return builder.ToString();
         }
+
+        private static int Parse(char c)
+        {
+            if (c >= 'a')
+                return (c - 'a' + 10) & 0x0f;
+            if (c >= 'A')
+                return (c - 'A' + 10) & 0x0f;
+            return (c - '0') & 0x0f;
+        }
+        //public static string ToStr(this byte[] bytes, int index, int count)
+        //{
+        //    return Encoding.Default.GetString(bytes, index, count);
+        //}
 
         public static string Utf8ToStr(this byte[] bytes)
         {
