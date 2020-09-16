@@ -46,16 +46,6 @@ namespace Codingriver
             return stringBuilder.ToString();
         }
 
-        public static string ToHex(this byte[] bytes, int offset, int count)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = offset; i < offset + count; ++i)
-            {
-                stringBuilder.Append(bytes[i].ToString("X2"));
-            }
-            return stringBuilder.ToString();
-        }
-
         /// <summary>
         /// 
         /// </summary>
