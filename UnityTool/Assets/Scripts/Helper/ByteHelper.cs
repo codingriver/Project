@@ -82,13 +82,13 @@ namespace Codingriver
             return builder.ToString();
         }
 
-        private static int Parse(char c)
+        public static int Parse(char hex)
         {
-            if (c >= 'a')
-                return (c - 'a' + 10) & 0x0f;
-            if (c >= 'A')
-                return (c - 'A' + 10) & 0x0f;
-            return (c - '0') & 0x0f;
+            if (hex >= 'a')
+                return (hex - 'a' + 10) & 0x0f;
+            if (hex >= 'A')
+                return (hex - 'A' + 10) & 0x0f;
+            return (hex - '0') & 0x0f;
         }
         //public static string ToStr(this byte[] bytes, int index, int count)
         //{

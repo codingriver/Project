@@ -70,7 +70,7 @@ namespace Codingriver
 
             for (int i = 0; i < unicodeStr.Length; i+=6)
             {
-                if(unicodeStr[i]=='\\'&&(unicodeStr[i+1]=='u'|| unicodeStr[i + 1] == 'U'))
+                if((unicodeStr[i]=='\\') &&(unicodeStr[i+1]=='u'|| unicodeStr[i + 1] == 'U'))
                 {
                     byte high = (byte)((Parse(unicodeStr[i+2])<<4)| Parse(unicodeStr[i + 3]));
                     byte low= (byte)((Parse(unicodeStr[i + 4]) << 4) | Parse(unicodeStr[i + 5]));
@@ -80,13 +80,13 @@ namespace Codingriver
             }
             return builder.ToString();
         }
-        private static int Parse(char c)
+        private static int Parse(char hex)
         {
-            if (c >= 'a')
-                return (c - 'a' + 10) & 0x0f;
-            if (c >= 'A')
-                return (c - 'A' + 10) & 0x0f;
-            return (c - '0') & 0x0f;
+            if (hex >= 'a')
+                return (hex - 'a' + 10) & 0x0f;
+            if (hex >= 'A')
+                return (hex - 'A' + 10) & 0x0f;
+            return (hex - '0') & 0x0f;
         }
 
 
@@ -137,14 +137,14 @@ namespace Codingriver
 			return sb.ToString();
 		}
 
-        public static bool IsEmpty(string str)
+        public static bool IsEmpty(this string str)
         {
             return string.IsNullOrEmpty(str);
         }
 
-		public static string MessageToStr(object message)
+		public static string ObjectToStr(System.Object obj)
 		{
-			return Dumper.DumpAsString(message);
+			return Dumper.DumpAsString(obj);
 		}
 	}
 }
