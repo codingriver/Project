@@ -30,7 +30,7 @@ namespace Codingriver
 
 
         /// <summary>
-        /// 客户端时间，秒
+        /// 时间戳，秒
         /// 表示自1970年1月1日0时0分0秒到现在的秒数
         /// </summary>
         /// <returns></returns>
@@ -40,7 +40,7 @@ namespace Codingriver
 		}
 
         /// <summary>
-        /// 客户端时间,毫秒
+        /// 时间戳,毫秒
         /// 表示自1970年1月1日0时0分0秒到现在的毫秒数
         /// </summary>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace Codingriver
         /// </summary>
         /// <param name="milliseconds">时间戳 毫秒</param>
         /// <returns></returns>
-        public static string StampToDate(long milliseconds)
+        public static string StampToDateByMilliseconds(long milliseconds)
         {
             return epoch1970.AddMilliseconds(milliseconds).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss:fff");
         }
@@ -67,5 +67,34 @@ namespace Codingriver
         {
             return epoch1970.AddMilliseconds(seconds).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss:fff");
         }
+
+        /// <summary>
+        /// 剩余时间格式化，格式化成可读模式
+        /// </summary>
+        /// <param name="seconds">剩余秒数</param>
+        /// <returns></returns>
+        public static string FormatTime(int seconds)
+        {
+            TimeSpan timeSpan = new TimeSpan(0, 0, seconds);
+            if (timeSpan.Days > 0)
+            {
+                string daydesc = "D";
+                return string.Format("{0}{1} {2:D2}:{3:D2}:{4:D2}", timeSpan.Days, daydesc,timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds );
+            }
+            return string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+        }
+
+        /// <summary>
+        /// 剩余天数
+        /// </summary>
+        /// <param name="seconds">剩余秒数</param>
+        /// <returns></returns>
+        public static int GetDay(int seconds)
+        {
+            int days = 0;
+            days = seconds / 3600 / 24;
+            return days;
+        }
+
     }
 }
