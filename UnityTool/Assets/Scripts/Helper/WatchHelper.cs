@@ -12,7 +12,19 @@ namespace Codingriver
     /// </summary>
     public static class WatchHelper
     {
-        private static readonly Stopwatch sw = new Stopwatch(); //Stopwatch提供一组方法和属性，可用于准确地测量运行时间
+
+        private static Stopwatch m_sw;
+
+        ////Stopwatch提供一组方法和属性，可用于准确地测量运行时间
+        private static Stopwatch sw
+        {
+            get
+            {
+                if (m_sw == null)
+                    m_sw = new Stopwatch();
+                return m_sw;
+            }
+        }
 
         /// <summary>
         /// 重置0并且重新开始计时
