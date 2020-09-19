@@ -134,6 +134,87 @@ namespace Codingriver
             }
         }
 
+        /// <summary>
+        /// 拷贝文件夹和文件夹内文件，强制覆盖文件
+        /// </summary>
+        /// <param name="originDir"></param>
+        /// <param name="targetDir"></param>
+        /// <param name="searchPattern"></param>
+        public static bool CopyDirectory(string originDir, string targetDir, string searchPattern, bool overwrite = true)
+        {
+            if (!Directory.Exists(originDir))
+                return true;
+            originDir = originDir.Replace("\\", "/");
+            targetDir = targetDir.Replace("\\", "/");
+            if (!originDir.EndsWith("/"))
+                originDir = originDir + "/";
+            if (!targetDir.EndsWith("/"))
+                targetDir = targetDir + "/";
+
+            string[] files = Directory.GetFiles(originDir, searchPattern, SearchOption.AllDirectories);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                string originPath = files[i];
+                string targetPath = originPath.Replace(originDir, targetDir);
+                if (!CopyFile(originPath, targetPath, overwrite))
+                {
+                    return false;
+                }
+            }
+            string[] dirs = Directory.GetDirectories(originDir, "*", SearchOption.AllDirectories);
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                string _targetDir = dirs[i].Replace(originDir, targetDir);
+                try
+                {
+                    if (!Directory.Exists(_targetDir))
+                    {
+                        Directory.CreateDirectory(_targetDir);
+                    }
+
+                }
+                catch (IOException e)
+                {
+                    UnityEngine.Debug.LogError("FileTools::CopyDirectory: IOException:" + e.ToString());
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public static bool CopyFile(string originPath, string targetPath, bool overwrite)
+        {
+            if (!File.Exists(originPath))
+                return true;
+
+
+            try
+            {
+                string targetDir = Path.GetDirectoryName(targetPath);
+                if (!Directory.Exists(targetDir))
+                {
+                    Directory.CreateDirectory(targetDir);
+                }
+                File.Copy(originPath, targetPath, overwrite);
+                return true;
+            }
+            catch (System.IO.IOException e)
+            {
+                UnityEngine.Debug.LogErrorFormat("CopyFile::Error,IOException({0})", e.ToString());
+
+            }
+            catch (System.Exception e)
+            {
+                UnityEngine.Debug.LogErrorFormat("CopyFile::Error,Exception({0})", e.ToString());
+
+            }
+
+
+            return false;
+        }
+
         public static void CopyFile(string src, string dst)
         {
             try
@@ -160,6 +241,33 @@ namespace Codingriver
                 throw e;
             }
 
+        }
+
+        /// <summary>
+        /// 复制文件或者文件夹
+        /// 文件：如果目标路径不存在则自动创建(默认强制覆盖)
+        /// 文件夹：目标路径不存在则自动创建，复制文件夹，根据通配符复制文件(默认强制覆盖)
+        /// </summary>
+        /// <param name="originPath">源路径</param>
+        /// <param name="targetPath">目标路径</param>
+        /// <param name="searchPattern">通配符</param>
+        /// <param name="overwrite">是否强制覆盖，默认强制覆盖</param>
+        /// <returns>true:操作成功；false:操作失败</returns>
+        public static bool Copy(string originPath, string targetPath, string searchPattern = "*", bool overwrite = true)
+        {
+            if (Directory.Exists(originPath))
+            {
+                return CopyDirectory(originPath, targetPath, searchPattern, overwrite);
+            }
+            else if (File.Exists(originPath))
+            {
+                return CopyFile(originPath, targetPath, overwrite);
+            }
+            else
+            {
+                UnityEngine.Debug.LogErrorFormat("Copy::Error,originPath({0}) is not find!", originPath);
+            }
+            return false;
         }
 
         /// <summary>
@@ -338,6 +446,49 @@ namespace Codingriver
             }
         }
 
+        /// <summary>
+        /// 转换成为人可读文件的大小
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static String ConvertHumanFileSize(double size)
+        {
+            String[] units = new String[] { "B", "KB", "MB", "GB", "TB", "PB" };
+            float mod = 1024.0f;
+            int i = 0;
+            while (size >= mod)
+            {
+                size /= mod;
+                i++;
+            }
+            return Math.Round(size) + units[i];
+
+        }
+        /// <summary>
+        /// 创建目录，检查目录是否存在，如果存在则清空目录
+        /// </summary>
+        /// <param name="dir"></param>
+        public static void CreateNewForder(string dir)
+        {
+            try
+            {
+                if (Directory.Exists(dir))
+                {
+                    CleanDirectory(dir);
+                }
+                else
+                {
+                    DirectoryInfo dirinfo = Directory.CreateDirectory(dir);
+                    
+                }
+            }
+            catch (IOException e)
+            {
+
+                UnityEngine.Debug.LogError("CreateNewForder::"+e.ToString());
+                
+            }
+        }
 
     }
 }

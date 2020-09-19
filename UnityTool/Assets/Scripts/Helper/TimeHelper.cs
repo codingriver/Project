@@ -4,6 +4,9 @@ namespace Codingriver
 {
 	public static class TimeHelper
     {
+        private const string format = "yyyy-MM-dd HH:mm:ss:fff";
+        private const string format1 = "HH:mm:ss:fff";
+
         /*
          DateTime.Ticks:表示自 0001 年 1 月 1 日午夜 12:00:00 以来已经过的时间的以 100 毫微秒为间隔的间隔数,是一个很大的长整数，单位是 100 毫微秒。
          1 毫秒 = 10^-3 秒，
@@ -23,30 +26,61 @@ namespace Codingriver
         /// 自 1970 年 1 月 1 日午夜 12:00:00到现在经过多少个100微秒数，
         /// </summary>
         /// <returns></returns>
-        public static long Ticks()
+        public static long Ticks
         {
-            return (DateTime.UtcNow.Ticks - epochTicks);
+            get
+            {
+                return (DateTime.UtcNow.Ticks - epochTicks);
+            }
         }
 
-
         /// <summary>
-        /// 时间戳，秒
+        /// 时间戳，秒(UTC)
         /// 表示自1970年1月1日0时0分0秒到现在的秒数
         /// </summary>
         /// <returns></returns>
-		public static long NowSeconds()
-		{
-			return (DateTime.UtcNow.Ticks - epochTicks) / 10000000;
-		}
+		public static long NowSeconds
+        {
+            get
+            {
+                return (DateTime.UtcNow.Ticks - epochTicks) / 10000000;
+            }
+        }
 
         /// <summary>
-        /// 时间戳,毫秒
+        /// 时间戳,毫秒(UTC)
         /// 表示自1970年1月1日0时0分0秒到现在的毫秒数
         /// </summary>
         /// <returns></returns>
-        public static long Now()
-		{
-            return (DateTime.UtcNow.Ticks - epochTicks) / 10000;
+        public static long Now
+        {
+            get
+            {
+                return (DateTime.UtcNow.Ticks - epochTicks) / 10000;
+            }
+        }
+
+        /// <summary>
+        /// 当前时间（当前时区的）
+        /// 格式：yyyy-MM-dd HH:mm:ss:fff
+        /// </summary>
+        public static string CurDate
+        {
+            get
+            {
+                return DateTime.UtcNow.ToLocalTime().ToString(format);
+            }
+        }
+        /// <summary>
+        /// 当前时间（当前时区的）
+        /// 格式：HH:mm:ss:fff
+        /// </summary>
+        public static string CurTime
+        {
+            get
+            {
+                return DateTime.UtcNow.ToLocalTime().ToString(format1);
+            }
         }
 
         /// <summary>
@@ -56,7 +90,7 @@ namespace Codingriver
         /// <returns></returns>
         public static string StampToDateByMilliseconds(long milliseconds)
         {
-            return epoch1970.AddMilliseconds(milliseconds).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss:fff");
+            return epoch1970.AddMilliseconds(milliseconds).ToLocalTime().ToString(format);
         }
         /// <summary>
         /// 时间戳转时间显示
@@ -65,7 +99,7 @@ namespace Codingriver
         /// <returns></returns>
         public static string StampToDateBySeconds(long seconds)
         {
-            return epoch1970.AddMilliseconds(seconds).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss:fff");
+            return epoch1970.AddMilliseconds(seconds).ToLocalTime().ToString(format);
         }
 
         /// <summary>
@@ -83,6 +117,8 @@ namespace Codingriver
             }
             return string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
         }
+
+
 
         /// <summary>
         /// 剩余天数

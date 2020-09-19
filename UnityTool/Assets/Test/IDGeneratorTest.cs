@@ -12,7 +12,7 @@ public class IDGeneratorTest : MonoBehaviour
         long time = 0;
         time = (long)((DateTime.UtcNow - new DateTime()).TotalMilliseconds);
         Debug.Log($"从0001年开始的时间戳：{time}----{time.ToString("X2")}");
-        time = TimeHelper.Now();
+        time = TimeHelper.Now;
         Debug.Log($"从1970年开始的时间戳：{time}----{time.ToString("X2")}");
         time = (long)((DateTime.UtcNow - new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
         Debug.Log($"从2020年开始的时间戳：{time}----{time.ToString("X2")}");
@@ -25,7 +25,7 @@ public class IDGeneratorTest : MonoBehaviour
         Debug.Log(DateTime.Now.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss:fff"));
         for (int i = 0; i < 1000000; i++)
         {
-            long id = TimeHelper.Now();
+            long id = TimeHelper.Now;
 
             //DateTime dt= Jan1st1970.AddMilliseconds(id);
             //b.Append($"{id}---{dt.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss:fff")}\n");
