@@ -13,16 +13,16 @@ namespace Codingriver
     public static class WatchHelper
     {
 
-        private static Stopwatch m_sw;
+        private static Stopwatch m_Stopwatch;
 
         ////Stopwatch提供一组方法和属性，可用于准确地测量运行时间
-        private static Stopwatch sw
+        private static Stopwatch Stopwatch
         {
             get
             {
-                if (m_sw == null)
-                    m_sw = new Stopwatch();
-                return m_sw;
+                if (m_Stopwatch == null)
+                    m_Stopwatch = new Stopwatch();
+                return m_Stopwatch;
             }
         }
 
@@ -31,7 +31,7 @@ namespace Codingriver
         /// </summary>
         public static void Start()
         {
-            sw.Restart();
+            Stopwatch.Restart();
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Codingriver
         /// </summary>
         public static void Reset()
         {
-            sw.Reset();
+            Stopwatch.Reset();
         }
 
         /// <summary>
@@ -47,21 +47,21 @@ namespace Codingriver
         /// </summary>
         public static void Keep()
         {
-            sw.Start();
+            Stopwatch.Start();
         }
 
 
         public static TimeSpan Stop()
         {
-            sw.Stop();
-            return sw.Elapsed;
+            Stopwatch.Stop();
+            return Stopwatch.Elapsed;
         }
 
         public static TimeSpan Elapsed
         {
             get
             {
-                return sw.Elapsed;
+                return Stopwatch.Elapsed;
             }
         }
         public static double TotalMilliseconds
@@ -69,14 +69,14 @@ namespace Codingriver
             get
             {
                 //return sw.Elapsed.TotalMilliseconds;
-                return sw.ElapsedMilliseconds;
+                return Stopwatch.ElapsedMilliseconds;
             }
         }
         public static double Totalseconds
         {
             get
             {
-                return sw.Elapsed.TotalSeconds;
+                return Stopwatch.Elapsed.TotalSeconds;
             }
         }
 
