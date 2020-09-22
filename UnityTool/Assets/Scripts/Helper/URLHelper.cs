@@ -120,6 +120,7 @@ namespace Codingriver
         /// <returns></returns>
         public static string UrlEncode(string str, Encoding encoding = null)
         {
+            //UnityEngine.WWW.EscapeURL
             if (encoding == null)
                 return HttpUtility.UrlEncode(str);
             else
