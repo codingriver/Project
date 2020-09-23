@@ -10,3 +10,9 @@ UnityTool/Assembly-CSharp-firstpass.csproj
 UnityTool/Temp/
 UnityTool/test.json
 UnityTool/jianshu/
+UnityEditorProject/obj/
+UnityEditorProject/.vs/
+UnityEditorProject/Logs/
+UnityTool/.vs/
+UnityTool/obj/
+UnityTool/Logs/

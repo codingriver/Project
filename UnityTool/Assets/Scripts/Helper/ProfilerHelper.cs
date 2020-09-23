@@ -3,7 +3,8 @@
 public static class ProfilerHelper
 {
 
-    public static bool UseProfiler = false;    public static bool UseStringFormatProfiler = true;
+    public static bool UseProfiler = true;
+    public static bool UseStringFormatProfiler = true;
 
     public static void BeginSample(string name)
     {
