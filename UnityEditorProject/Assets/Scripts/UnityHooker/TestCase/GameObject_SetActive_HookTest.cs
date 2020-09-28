@@ -8,6 +8,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 [InitializeOnLoad]
 public static class GameObject_SetActive_HookTest
 {
@@ -41,3 +42,4 @@ public static class GameObject_SetActive_HookTest
         // dummy
     }
 }
+#endif

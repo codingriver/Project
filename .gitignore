@@ -16,3 +16,6 @@ UnityEditorProject/Logs/
 UnityTool/.vs/
 UnityTool/obj/
 UnityTool/Logs/
+*.csproj
+UnityEditorProject/release/
+UnityTool/UIElementsSchema/
