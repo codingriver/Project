@@ -19,3 +19,11 @@ UnityTool/Logs/
 *.csproj
 UnityEditorProject/release/
 UnityTool/UIElementsSchema/
+UnityFramework/Library/
+UnityFramework/UIElementsSchema/
+UnityFramework/obj/
+UnityFramework/Logs/Packages-Update.log
+UnityFramework/Temp/
+UnityFramework/.vs/
+UnityFramework/test.json
+*.sln
